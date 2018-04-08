@@ -1,5 +1,15 @@
 
-# Your final report should include each of the following:
+# Heroes of Pymoli Data Analysis
+* Pymoli has a considerably low percentage of women playing the game,
+https://quanticfoundry.com/2017/01/19/female-gamers-by-genre/
+This might suggest that adding a new meta could attact more players
+https://quanticfoundry.com/2016/12/15/primary-motivations/
+
+* The majority of players are 20-24 this seems to be inline with typical industry figures. It maybe useful to examine the external connection these players may have to find better sources to advertise Pymoli.
+http://www.theesa.com/about-esa/essential-facts-computer-video-game-industry/
+
+* The average amount spend per player (who buys an item) is around 2-3 dollars, this is much higher than the industry average .45 dollars. Offering lower priced items could convert more sales.
+https://gamerant.com/free-to-play-games-profits-statistics/
 
 
 
@@ -8,14 +18,14 @@ import pandas as pd
 import numpy as np
 
 jason_path = "HeroesOfPymoli/purchase_data.json"
-
 orginal_df = pd.read_json(jason_path)
-
 ```
+
+# Player Count
 
 
 ```python
-#Total Number of Players
+# Count the TotalNumber of Players
 Total_numbers_of_players = {}
 
 Total_numbers_of_players['Total Players'] = orginal_df['SN'].nunique()
@@ -58,11 +68,10 @@ pd.DataFrame(data=Total_numbers_of_players,index=[0])
 
 
 # Purchasing Analysis (Total)
-Needs Formating in table
 
 
 ```python
-#Holds Numbers
+#Hold Purchase Dictionary
 purchasing_analysis = {}
 
 #Pulling the Data from orginal_df
@@ -104,15 +113,17 @@ purchasing_analysis_df.style.format({'Total Revenue':'${:.2f}','Average Price':'
 
 
 # Gender Demographics
-Needs Formating in table
 
 
 ```python
+#Pulling the Data from orginal_df
 gender_count = orginal_df.groupby(['Gender'])
+
+#Parse Data from gender_count group for the table
 gender_count_df = gender_count[["SN"]].nunique()
 gender_count_df['Percentage of Players'] = gender_count["SN"].nunique()/gender_count_df['SN'].sum()
 
-#Format Table
+#Formats the Output for Readablity
 gender_count_df = gender_count_df.rename(columns={"SN": "Total Count"})
 gender_count_df.style.format({'Percentage of Players':'{:.2%}'})
 ```
@@ -149,13 +160,20 @@ gender_count_df.style.format({'Percentage of Players':'{:.2%}'})
 
 
 
+# Purchasing Analysis (Gender)
+
 
 ```python
+#Hold Purchase Dictionary
 gender_analysis = {}
+
+#Parse Data from gender_count group for the table
 gender_analysis['Average Purchase Price'] = gender_count["Price"].mean()
 gender_analysis['Total Purchase Value'] = gender_count["Price"].sum()
 gender_analysis['Purchase Count'] = gender_count["Price"].count()
 gender_analysis['Normalized Totals'] = gender_count["Price"].sum()/gender_count["SN"].nunique()
+
+#Formats the Output for Readablity
 pd.DataFrame(data=gender_analysis).style.format({'Normalized Totals':'${:,.2f}','Total Purchase Value':'${:,.2f}',\
                                                 'Average Purchase Price':'${:,.2f}'})
 
@@ -166,7 +184,7 @@ pd.DataFrame(data=gender_analysis).style.format({'Normalized Totals':'${:,.2f}',
 
 <style  type="text/css" >
 </style>  
-<table id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0d" > 
+<table id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0d" > 
 <thead>    <tr> 
         <th class="blank level0" ></th> 
         <th class="col_heading level0 col0" >Average Purchase Price</th> 
@@ -181,58 +199,49 @@ pd.DataFrame(data=gender_analysis).style.format({'Normalized Totals':'${:,.2f}',
         <th class="blank" ></th> 
     </tr></thead> 
 <tbody>    <tr> 
-        <th id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0dlevel0_row0" class="row_heading level0 row0" >Female</th> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow0_col0" class="data row0 col0" >$2.82</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow0_col1" class="data row0 col1" >$3.83</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow0_col2" class="data row0 col2" >136</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow0_col3" class="data row0 col3" >$382.91</td> 
+        <th id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0dlevel0_row0" class="row_heading level0 row0" >Female</th> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow0_col0" class="data row0 col0" >$2.82</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow0_col1" class="data row0 col1" >$3.83</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow0_col2" class="data row0 col2" >136</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow0_col3" class="data row0 col3" >$382.91</td> 
     </tr>    <tr> 
-        <th id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0dlevel0_row1" class="row_heading level0 row1" >Male</th> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow1_col0" class="data row1 col0" >$2.95</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow1_col1" class="data row1 col1" >$4.02</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow1_col2" class="data row1 col2" >633</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow1_col3" class="data row1 col3" >$1,867.68</td> 
+        <th id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0dlevel0_row1" class="row_heading level0 row1" >Male</th> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow1_col0" class="data row1 col0" >$2.95</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow1_col1" class="data row1 col1" >$4.02</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow1_col2" class="data row1 col2" >633</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow1_col3" class="data row1 col3" >$1,867.68</td> 
     </tr>    <tr> 
-        <th id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0dlevel0_row2" class="row_heading level0 row2" >Other / Non-Disclosed</th> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow2_col0" class="data row2 col0" >$3.25</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow2_col1" class="data row2 col1" >$4.47</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow2_col2" class="data row2 col2" >11</td> 
-        <td id="T_0a26093e_3a96_11e8_b2bf_b4ae2bc9de0drow2_col3" class="data row2 col3" >$35.74</td> 
+        <th id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0dlevel0_row2" class="row_heading level0 row2" >Other / Non-Disclosed</th> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow2_col0" class="data row2 col0" >$3.25</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow2_col1" class="data row2 col1" >$4.47</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow2_col2" class="data row2 col2" >11</td> 
+        <td id="T_cf35e414_3aba_11e8_9bce_b4ae2bc9de0drow2_col3" class="data row2 col3" >$35.74</td> 
     </tr></tbody> 
 </table> 
 
 
 
-# **Age Demographics**
-
-* The below each broken into bins of 4 years (i.e. &lt;10, 10-14, 15-19, etc.) 
-  * Purchase Count
-  * Average Purchase Price
-  * Total Purchase Value
-  * Normalized Totals
+# Age Demographics
 
 
 ```python
-#age_demographics = orginal_df.groupby(['Age']).nunique()
-#age_demographics['SN'].sum()
-```
-
-
-```python
+#Pulling the Data from orginal_df
 age_demographics = orginal_df[['Age','SN','Price']]
+
+#Divides up orginal_df to Add Catagories
 bins = [0, 10, 14, 19, 24, 29, 34, 39, 999]
 group_names = ['<10', '10-14', '15-19', '20-24', '25-29','30-34','35-39','40+']
+
+
 age_demographics=age_demographics.reset_index(drop=True)
 age_demographics['Catagory']=pd.cut(age_demographics['Age'], bins, labels=group_names)
 age_catagory_df = age_demographics.groupby(['Catagory']).nunique()
 age_total_p_df = age_demographics.groupby(['Catagory']).count()
-
 age_price_df = age_demographics.groupby(['Catagory']).sum()
 total_number = age_catagory_df['SN'].sum()
 age_catagory_df2 = age_total_p_df[['SN']]
 age_catagory_df2=age_catagory_df2.reset_index()
 age_price_df = age_price_df.reset_index()
-
 catagory_demographics_df = age_catagory_df
 catagory_demographics_df = catagory_demographics_df.drop(columns=['Catagory','Age'])
 
@@ -240,6 +249,8 @@ catagory_demographics_df = catagory_demographics_df.drop(columns=['Catagory','Ag
 catagory_demographics_df = catagory_demographics_df.reset_index()
 catagory_demographics_df['Percentage of Players'] = catagory_demographics_df['SN']/total_number
 catagory_demographics_df = catagory_demographics_df[['Catagory','SN','Percentage of Players']].set_index('Catagory')
+
+#Format the Output
 catagory_final_df = catagory_demographics_df.rename(columns={'SN':'Total Count'})
 catagory_demographics_df = catagory_demographics_df.reset_index()
 catagory_final_df.style.format({'Percentage of Players':'{:.2%}'})
@@ -298,6 +309,8 @@ catagory_final_df.style.format({'Percentage of Players':'{:.2%}'})
 
 
 
+# Purchasing Analysis (Age)
+
 
 ```python
 age_price_df['Average Spent'] =  age_price_df['Price']/catagory_demographics_df['SN']
@@ -305,6 +318,7 @@ age_price_df['Normalized Totals'] = age_price_df['Price']/age_catagory_df2["SN"]
 age_price_df['Purchase Count'] = age_catagory_df2["SN"]
 age_display = age_price_df[['Catagory','Purchase Count','Average Spent','Price','Normalized Totals']]
 
+#Format the Output
 age_display = age_display.rename(columns={'Price':'Total Purchase Value'})
 age_display = age_display.set_index(['Catagory']).style.format({'Normalized Totals':'${:,.2f}','Total Purchase Value':'${:,.2f}',\
                             'Average Purchase Price':'${:,.2f}','Average Spent':'${:,.2f}'})
@@ -383,13 +397,8 @@ age_display
 
 
 
-# **Top Spenders**
+# Top Spenders
 
-* Identify the the top 5 spenders in the game by total purchase value, then list (in a table):
-  * SN
-  * Purchase Count
-  * Average Purchase Price
-  * Total Purchase Value
 
 
 ```python
@@ -459,32 +468,18 @@ some_df
 
 
 
+# Most Popular Items
+
 
 ```python
 item_count_df = orginal_df.groupby(['Item Name']).count().reset_index()
-#Purchase Count
 item_count_df=item_count_df.drop(columns=['Age','Gender','Item ID','SN'])
-#item_count_df.head()
-```
-
-
-```python
 item_price_df = orginal_df.groupby(['Item Name']).mean().reset_index()
-
 item_price_df = item_price_df.drop(columns=['Age','Item ID'])
-#item_price_df.head()
-#Average Price
-```
-
-
-```python
 item_value_df = orginal_df.groupby(['Item Name']).sum().reset_index()
 item_value_df=item_value_df.drop(columns=['Age','Item ID'])
-#item_value_df.head()
-```
 
-
-```python
+#Format the Output
 final_df = item_count_df
 final_df['Item Price'] = item_price_df['Price']
 final_df['Total Purchase Value'] = item_value_df['Price']
@@ -496,7 +491,7 @@ final_df.sort_values(by=['Price'], ascending=False).head().style.format({'Item P
 
 <style  type="text/css" >
 </style>  
-<table id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0d" > 
+<table id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0d" > 
 <thead>    <tr> 
         <th class="blank level0" ></th> 
         <th class="col_heading level0 col0" >Item Name</th> 
@@ -505,39 +500,41 @@ final_df.sort_values(by=['Price'], ascending=False).head().style.format({'Item P
         <th class="col_heading level0 col3" >Total Purchase Value</th> 
     </tr></thead> 
 <tbody>    <tr> 
-        <th id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0dlevel0_row0" class="row_heading level0 row0" >56</th> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow0_col0" class="data row0 col0" >Final Critic</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow0_col1" class="data row0 col1" >14</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow0_col2" class="data row0 col2" >$2.76</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow0_col3" class="data row0 col3" >$38.60</td> 
+        <th id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0dlevel0_row0" class="row_heading level0 row0" >56</th> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow0_col0" class="data row0 col0" >Final Critic</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow0_col1" class="data row0 col1" >14</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow0_col2" class="data row0 col2" >$2.76</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow0_col3" class="data row0 col3" >$38.60</td> 
     </tr>    <tr> 
-        <th id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0dlevel0_row1" class="row_heading level0 row1" >8</th> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow1_col0" class="data row1 col0" >Arcane Gem</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow1_col1" class="data row1 col1" >11</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow1_col2" class="data row1 col2" >$2.23</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow1_col3" class="data row1 col3" >$24.53</td> 
+        <th id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0dlevel0_row1" class="row_heading level0 row1" >8</th> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow1_col0" class="data row1 col0" >Arcane Gem</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow1_col1" class="data row1 col1" >11</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow1_col2" class="data row1 col2" >$2.23</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow1_col3" class="data row1 col3" >$24.53</td> 
     </tr>    <tr> 
-        <th id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0dlevel0_row2" class="row_heading level0 row2" >11</th> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow2_col0" class="data row2 col0" >Betrayal, Whisper of Grieving Widows</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow2_col1" class="data row2 col1" >11</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow2_col2" class="data row2 col2" >$2.35</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow2_col3" class="data row2 col3" >$25.85</td> 
+        <th id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0dlevel0_row2" class="row_heading level0 row2" >11</th> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow2_col0" class="data row2 col0" >Betrayal, Whisper of Grieving Widows</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow2_col1" class="data row2 col1" >11</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow2_col2" class="data row2 col2" >$2.35</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow2_col3" class="data row2 col3" >$25.85</td> 
     </tr>    <tr> 
-        <th id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0dlevel0_row3" class="row_heading level0 row3" >137</th> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow3_col0" class="data row3 col0" >Stormcaller</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow3_col1" class="data row3 col1" >10</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow3_col2" class="data row3 col2" >$3.46</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow3_col3" class="data row3 col3" >$34.65</td> 
+        <th id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0dlevel0_row3" class="row_heading level0 row3" >137</th> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow3_col0" class="data row3 col0" >Stormcaller</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow3_col1" class="data row3 col1" >10</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow3_col2" class="data row3 col2" >$3.46</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow3_col3" class="data row3 col3" >$34.65</td> 
     </tr>    <tr> 
-        <th id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0dlevel0_row4" class="row_heading level0 row4" >173</th> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow4_col0" class="data row4 col0" >Woeful Adamantite Claymore</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow4_col1" class="data row4 col1" >9</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow4_col2" class="data row4 col2" >$1.24</td> 
-        <td id="T_0a5d4454_3a96_11e8_a4be_b4ae2bc9de0drow4_col3" class="data row4 col3" >$11.16</td> 
+        <th id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0dlevel0_row4" class="row_heading level0 row4" >173</th> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow4_col0" class="data row4 col0" >Woeful Adamantite Claymore</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow4_col1" class="data row4 col1" >9</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow4_col2" class="data row4 col2" >$1.24</td> 
+        <td id="T_d02e859e_3ab0_11e8_98a8_b4ae2bc9de0drow4_col3" class="data row4 col3" >$11.16</td> 
     </tr></tbody> 
 </table> 
 
 
+
+# Most Profitable Items
 
 
 ```python
